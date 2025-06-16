@@ -22,6 +22,7 @@ It displays and dynamically updates the capacity of time slots for these reserva
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Design Choices](#-design-choices)
+  - [Card Component](#card-component)
   - [Overall Daily Capacity](#overall-daily-capacity)
   - [Live Updates Badge](#live-updates-badge)
   - [Edge Cases](#covering-edge-cases-no-data-loading-and-error)
@@ -84,6 +85,33 @@ This is possible because the time slot store is using SSE to receive real-time u
 ## 🎨 Design Choices
 
 I implemented additional features that wasn't mentioned in the technical assignment that I thought would improve the user experience.
+
+#### Card Component
+
+Card component display colors in the background depending on the capacity of the time slot, while also displaying the category name of the time slot as a chip in the top right corner.
+
+![Screenshot](./.github/imgs/card_component.png)
+
+Also calculates and displays the capacity of each time slot as a number and a progress bar to display the current capacity of the time slot with informative texts.
+
+```typescript
+// src/components/Card.vue:72
+if (current > max) {
+  return `Over capacity by ${current - max} trucks`;
+} else if (percentage >= 95) {
+  return 'Critical - Nearly full';
+} else if (percentage >= 85) {
+  return 'High utilization';
+} else if (percentage >= 70) {
+  return 'Moderate usage';
+} else if (percentage >= 40) {
+  return 'Available capacity';
+} else if (percentage >= 20) {
+  return 'Good availability';
+} else {
+  return 'Excellent availability';
+}
+```
 
 #### Overall Daily Capacity
 
